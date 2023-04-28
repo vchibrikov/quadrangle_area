@@ -1,36 +1,72 @@
-# Calculate quadrangle area according to Bretschneider's Formula
-
 #import packages
+
 import os
 import cv2
 import pandas as pd
 import math
 
-# Create an empty data frame to store the results
+# Create an empty DataFrame to store the results
 df = pd.DataFrame(columns=['file_name', 'area_pixels'])
-
-# Define a name of file in which data will be exported
 output_filename = 'test_data.csv'
+
 
 # Define the function to handle mouse events
 def mouse_callback(event, x, y, flags, params):
 
-    # If left mouse button is pressed lower than the number of quadrangle corners (4)
+    # If left mouse button is pressed
     if event == cv2.EVENT_LBUTTONDOWN and len(params['points']) < 4:
 
-        # Add the coordinates of the respected point to the list
+        # Add the point to the list
         params['points'].append((x, y))
 
         # Draw a circle at the point
         cv2.circle(params['image'], (x, y), 5, (0, 0, 255), -1)
 
-        # Update the display so that previously clicked corner will be visible
+        # Update the display
         cv2.imshow("image", params['image'])
+
+        # draw line
+        if len(params['points']) == 2:
+
+             # Define the points
+            point1 = params['points'][-2]
+            point2 = params['points'][-1]  
+        
+            # Draw a line between the points
+            cv2.line(params['image'], point1, point2, (0, 0, 255), 2)
+
+            # Update the display
+            cv2.imshow('image', params['image'])
+
+        # draw line
+        if len(params['points']) == 3:
+
+             # Define the points
+            point1 = params['points'][-2]
+            point2 = params['points'][-1]  
+        
+            # Draw a line between the points
+            cv2.line(params['image'], point1, point2, (0, 0, 255), 2)
+
+            # Update the display
+            cv2.imshow('image', params['image'])
 
         # If four points have been selected, calculate the area
         if len(params['points']) == 4:
 
-            # Define the sides of the quadrangle and its diagonals
+            # Define the points
+            point1 = params['points'][-2]
+            point2 = params['points'][-1]
+            point3 = params['points'][-4]
+        
+            # Draw a line between the points
+            cv2.line(params['image'], point1, point2, (0, 0, 255), 2)
+            cv2.line(params['image'], point3, point2, (0, 0, 255), 2)
+
+            # Update the display
+            cv2.imshow('image', params['image'])
+
+            # Define the sides of the quadrangle and dialonals
             AB = ((params['points'][0][0]-params['points'][1][0])**2 + (params['points'][0][1]-params['points'][1][1])**2)**0.5
             BC = ((params['points'][1][0]-params['points'][2][0])**2 + (params['points'][1][1]-params['points'][2][1])**2)**0.5
             CD = ((params['points'][2][0]-params['points'][3][0])**2 + (params['points'][2][1]-params['points'][3][1])**2)**0.5
@@ -38,31 +74,27 @@ def mouse_callback(event, x, y, flags, params):
             AC = ((params['points'][0][0]-params['points'][2][0])**2 + (params['points'][0][1]-params['points'][2][1])**2)**0.5
             BD = ((params['points'][1][0]-params['points'][3][0])**2 + (params['points'][1][1]-params['points'][3][1])**2)**0.5
 
-            # # Define half perimeter of quadrangle 
+            # Define half perimeter
             S = (AB + BC + CD + DA)/2
 
             # # Calculate the area of the quadrangle in pixels according to Bretschneider's Formula
             A = math.sqrt((S-AB)*(S-BC)*(S-CD)*(S-DA) - 0.25*(AB*CD+BC*DA+AC*BD)*(AB*CD+BC*DA-AC*BD))
 
-	    # append the results of calculation to dataframe
+            # add data to dataframe and export
             df.loc[len(df)] = [filename_short, A]
-
-	    # export dataframe  
             df.to_csv(path + output_filename, index = False)
 
 # Define the folder containing the images
-folder = '/Users/---/Desktop/---/---' 
-# Define the folder where your output file will be stored
-path = '/Users/---/Desktop/---/---/'
+folder = '/Users/---/Desktop/---/---/---/' 
+path = '/Users/---/Desktop/---/---/---/'
 
-# Define the extensions of the image files (optionally to change according to your file format)
+# Define the extensions of the image files
 extensions = ('.jpeg','.tiff', '.jpg', '.tif')
 
 # Iterate over the images in the folder
 for filename in os.listdir(folder):
     if filename.lower().endswith(extensions):
 
-	# remove file format from the filename so in exported file only filename without format will be shown
         filename_short = filename.replace('.tif', '')
         filename_short = filename.replace('.jpeg', '')
         filename_short = filename.replace('.tiff', '')
@@ -87,6 +119,9 @@ for filename in os.listdir(folder):
         cv2.imshow("image", image)
         cv2.setMouseCallback("image", mouse_callback, params)
         cv2.waitKey(0)
+
+
+
 
 
 
