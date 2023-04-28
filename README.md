@@ -1,13 +1,15 @@
-Readme
+# quadrangle_area.py
 
 This Python script is designed to calculate the area of a quadrangle based on Bretschneider's formula. The script takes in an image file path, prompts the user to select four points to define the quadrangle, and then calculates the area of the quadrangle using the selected points. The area of the quadrangle is then added to a Pandas dataframe and exported to a CSV file.
 
-Prerequisites
+# Prerequisites
+
 -   Python 3.x
 -   OpenCV 4.x
 -   Pandas
 
-Installation
+# Installation
+
 -   Install Python 3.x from the official website.
 -   Install OpenCV 4.x using pip:
 
@@ -19,7 +21,8 @@ pip install pandas
 
 -   Download the script and save it to a directory of your choice.
 
-Usage
+# Usage
+
 -   Modify the following lines of the script to specify the folder containing your images (flder) and the folder where your output file will be stored (output):
 
 folder = '/Users/---/Desktop/---/---' 
@@ -36,6 +39,6 @@ python quadrangle_area.py
 
 - The script will prompt you to select four points to define the quadrangle in each image. Select the points by clicking on the image, and press any key to continue to the next image. The area of the quadrangle will be added to a Pandas dataframe and exported to a CSV file.
 
-License
+# License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
