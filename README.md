@@ -23,6 +23,7 @@ Usage
 -   Modify the following lines of the script to specify the folder containing your images (flder) and the folder where your output file will be stored (output):
 
 folder = '/Users/---/Desktop/---/---' 
+
 path = '/Users/---/Desktop/---/---/'
 
 -   Modify the following line of the script to specify the file extensions of your image files:
